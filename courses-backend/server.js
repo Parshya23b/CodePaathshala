@@ -6,10 +6,22 @@ const cors = require('cors');
 const courseRoutes = require('./routes/courseRoutes');
 
 const app = express();
+const uploadRoutes = require('./routes/uploadRoutes');
+app.use('/api/uploads', require('./routes/uploadRoutes'));
+
+
+
+const pdfRoutes = require('./routes/pdfRoutes');
+app.use('/api/pdf', pdfRoutes);
+const videoRoutes = require('./routes/videoRoutes');
+app.use('/api/video', videoRoutes);
+
+app.use('/api/upload', uploadRoutes);
 
 // Middleware (must be before routes)
 app.use(express.json()); // ✅ Parses JSON bodies
 app.use(cors());         // ✅ Enables CORS
+app.use('/api/quiz', require('./routes/quizRoutes'));
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI, {
